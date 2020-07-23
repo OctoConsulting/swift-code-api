@@ -6,8 +6,6 @@ Also CSV Download functionality is available for Entity, Reps and Cert and Answe
 
 open API : The WSDL is available at https://gw.sam.gov/SAMWS/1.0/Entity?wsdl
 
-The Endpoint is https://gw.sam.gov/SAMWS/1.0/Entity
-
 
 ## Development setup
 
