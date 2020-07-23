@@ -149,13 +149,10 @@ public class EntityDataController {
 	    entityService.generateCSVResponse(httpServletResponse);
 	  }
 	  
-	  
-
 	  @GetMapping("fetch/fardfarlist")
-	  public Map<String, List<String>> fetchFardFar( HttpServletResponse httpServletResponse) throws IOException{
+	  public Map<String, List<String>> fetchFarDfar( HttpServletResponse httpServletResponse) throws IOException{
 	    return entityService.getDistinctFarDfar();
 	  }
-	  
 
 	  @GetMapping("/entity-csv/date")
 	  public void downloadUsersCSV( @RequestParam String date,  HttpServletResponse httpServletResponse) throws IOException{
@@ -163,6 +160,10 @@ public class EntityDataController {
 	    entityService.generateCSVResponse(date+"-00:00:00", date+"-23:59:59",httpServletResponse);
 	  }
 	  
-	 
+	@RequestMapping(value = "fetch/cleanDBdata", method = RequestMethod.DELETE)
+	public String cleanDBdata(HttpServletResponse httpServletResponse) throws IOException {
+		return entityService.cleanDBdata() ? "Records deleted successfully" : "Error occurred while deleting records";
+	}
+
 
 }

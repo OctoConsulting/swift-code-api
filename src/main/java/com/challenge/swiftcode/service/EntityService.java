@@ -94,12 +94,11 @@ public class EntityService {
 	
 
 	public Map<String, List<String>> getDistinctFarDfar() {
-		
-		return getResponseForFarDfar(entityRepository.getDistinctDfar(), entityRepository.getDistinctFar());
+		return getResponseForFarDfar(entityRepository.getDistinctFarDfar("DFAR"),
+				entityRepository.getDistinctFarDfar("FAR"));
 	}
 	
 	public Map<String, List<String>> getResponseForFarDfar( List<Object> distinctDfar ,  List<Object> distinctFar ) {
-		
 		Map<String,List<String>> dfar = new HashMap<String, List<String>>();
 		
 		List<String> arrayDfar = new ArrayList<String>();
@@ -114,9 +113,10 @@ public class EntityService {
 		}
 		dfar.put("FAR", arrayFar);
 		
-		
 		return dfar;
 	}
+	
+	
 
 
 	public void generateCSVResponse(HttpServletResponse httpServletResponse) throws IOException {
@@ -347,6 +347,10 @@ public class EntityService {
 			}
 		}
 		return entityObjResponse;
+	}
+
+	public boolean cleanDBdata() {
+		return entityRepository.cleanDBdata();
 	}
 
 }
