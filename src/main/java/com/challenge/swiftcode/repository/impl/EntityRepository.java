@@ -2,6 +2,10 @@ package com.challenge.swiftcode.repository.impl;
 
 
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +23,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.swiftcode.models.EntityObject;
-import com.challenge.swiftcode.models.FarDFarAnswersData;
 import com.challenge.swiftcode.repository.BaseRepository;
 
 
@@ -122,51 +125,31 @@ public class EntityRepository extends BaseRepository<EntityObject> {
 		}
 	}
 	
-
-	public List<Object> getDistinctDfar() {
-		try {
-			String distinctFarQueryString ="select distinct(far_dfar_code) FROM swiftschema.far_dfar_answer_details where far_dfar_type = 'DFAR'";
-			NativeQuery distinctFarQueryStringNative =getCurrentSession().createNativeQuery(distinctFarQueryString);
-			
-//			distinctFarQueryStringNative.addEntity(FarDFarAnswersData.class);
-			List<Object> entityList = distinctFarQueryStringNative.list();
-			return entityList;
-			
-		}catch(Exception ex) {
-			log.error("swiftCode - Error while getting distinct dfar");
-			throw ex;
-		}
-	}
-	
-	public List<Object> getDistinctFar() {
-		try {
-
-			String distinctFarQueryString ="select distinct(far_dfar_code) FROM swiftschema.far_dfar_answer_details where far_dfar_type = 'FAR'";
-			NativeQuery distinctFarQueryStringNative =getCurrentSession().createNativeQuery(distinctFarQueryString);
-			
-//			distinctFarQueryStringNative.addEntity(FarDFarAnswersData.class);
-			List<Object> entityList = distinctFarQueryStringNative.list();
-			return entityList;
-			
-		}catch(Exception ex) {
-			log.error("swiftCode - Error while getting distinct far");
-			throw ex;
-		}
-	}
-	
-	
-	public List<Object> getDistinctDfar(String farDfarVariable) {
+	public List<Object> getDistinctFarDfar(String farDfarVariable) {
 		try {
 			String distinctFarQueryString ="select distinct(far_dfar_code) FROM swiftschema.far_dfar_answer_details where far_dfar_type = '" + farDfarVariable + "'";
 			NativeQuery distinctFarQueryStringNative =getCurrentSession().createNativeQuery(distinctFarQueryString);
 			
-//			distinctFarQueryStringNative.addEntity(EntityObject.class);
 			List<Object> entityList = distinctFarQueryStringNative.list();
 			return entityList;
-			
 		}catch(Exception ex) {
 			log.error("swiftCode - Error while getting distinct dfar");
 			throw ex;
+		}
+	}
+
+	public boolean cleanDBdata() {
+		try (Connection conn = DriverManager.getConnection(
+
+				"jdbc:postgresql://localhost:5432/swiftCode?stringtype=unspecified&currentSchema=swiftschema",
+				"swift_user", "swift"); Statement stmt = conn.createStatement();) {
+
+			stmt.executeUpdate("delete from swiftschema.far_dfar_answer_details");
+			return true;
+		} catch (SQLException e) {
+			log.error("swiftCode - Error while getting distinct dfar");
+			e.printStackTrace();
+			return false;
 		}
 	}
 

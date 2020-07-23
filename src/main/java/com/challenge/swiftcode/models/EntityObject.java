@@ -103,9 +103,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 			this.farDfarAnswerDataList = farDfarAnswerDataList;
 		}
 
-		
-		
-		
 	}
 
 
